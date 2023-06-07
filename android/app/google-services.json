@@ -1,0 +1,46 @@
+{
+  "project_info": {
+    "project_number": "274262039847",
+    "project_id": "sahilecom",
+    "storage_bucket": "sahilecom.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:274262039847:android:1a80074bc4ed686e0a5d02",
+        "android_client_info": {
+          "package_name": "com.sahil.sahilweb"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "274262039847-telr9sp4pve3992be1tqdnue9cs0lcl5.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyBW0QkR6vgnw8nJh0ZRXL88mZQQey9P1lM"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "274262039847-telr9sp4pve3992be1tqdnue9cs0lcl5.apps.googleusercontent.com",
+              "client_type": 3
+            },
+            {
+              "client_id": "274262039847-7aajsjge8vicomj8ir6li50tecj4di4m.apps.googleusercontent.com",
+              "client_type": 2,
+              "ios_info": {
+                "bundle_id": "com.sahil.admin"
+              }
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
