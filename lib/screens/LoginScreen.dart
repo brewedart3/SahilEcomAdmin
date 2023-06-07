@@ -108,10 +108,12 @@ class _LoginScreenState extends State<LoginScreen> {
                               }
                             } catch (e) {
                               print(e);
-
-
-                              ToastUtils.setSnackBar(
-                                  context,e.toString());
+                              print("err : ${e.toString()}");
+                              if(e.toString().contains("[firebase_auth/unknown] An unknown error occurred: FirebaseError: Firebase: The password is invalid or the user does not have a password. (auth/wrong-password).")){
+                                ToastUtils.setSnackBar(context,"password is incorrect");
+                              }else{
+                                ToastUtils.setSnackBar(context,e.toString());
+                              }
                             }
                           }),
 
