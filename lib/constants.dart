@@ -59,4 +59,10 @@ class Utils {
   // static void hideLoader() {
   //   SVProgressHUD.dismiss();
   // }
+
+
+  static void showLoader() {
+
+    double _currentValue = 0;
+  }
 }

@@ -15,17 +15,10 @@ class LoginScreen extends StatefulWidget {
 final _auth = FirebaseAuth.instance;
 
 class _LoginScreenState extends State<LoginScreen> {
-
-   final TextEditingController _emailController = TextEditingController();
+  final TextEditingController _emailController = TextEditingController();
   final TextEditingController _passwordController = TextEditingController();
 
-  @override
-  void initState() {
-    // TODO: implement initState
-    super.initState();
-    // Utils.showLoader();
-
-  }
+  bool isLoading = false;
 
   @override
   Widget build(BuildContext context) {
@@ -50,9 +43,9 @@ class _LoginScreenState extends State<LoginScreen> {
                     children: [
                       Text(
                         'Welcome to Admin Panel',
-                  style: Style(context).boldBlackText26(),
-                  textAlign: TextAlign.start,
-                ),
+                        style: Style(context).boldBlackText26(),
+                        textAlign: TextAlign.start,
+                      ),
                       SizedBox(
                         height: 30,
                       ),
@@ -65,7 +58,6 @@ class _LoginScreenState extends State<LoginScreen> {
                       SizedBox(
                         height: 10.0,
                       ),
-
                       CTextField(
                         hintText: "Enter your password.",
                         lable: "",
@@ -74,63 +66,104 @@ class _LoginScreenState extends State<LoginScreen> {
                         keyboardType: TextInputType.text,
                         controller: _passwordController,
                       ),
-
                       SizedBox(
                         height: 24.0,
                       ),
-                      RoundedButton(
-                          colour: Colors.lightBlueAccent,
-                          title: 'Log In',
-                          onPressed: () async {
+                      isLoading
+                          ? Padding(
+                              padding: const EdgeInsets.all(8.0),
+                              child: Row(
+                                mainAxisAlignment: MainAxisAlignment.center,
+                                children: [
+                                  CircularProgressIndicator(
+                                    color: Colors.blue,
+                                  ),
+                                  SizedBox(width: 20,),
+                                  Text("Please wait....")
+                                ],
+                              ),
+                            )
+                          : RoundedButton(
+                              colour: Colors.lightBlueAccent,
+                              title: 'Log In',
+                              onPressed: () async {
+                                if (isLoading) return;
+                                setState(() {
+                                  isLoading  = true;
+                                });
 
-                            var email = _emailController.text.toString().trim();
-                            var password = _passwordController.text.toString().trim();
-                            if (email.isEmpty) {
-                              ToastUtils.setSnackBar(
-                                  context,"Enter Email");
-                              return;
-                            }else if (email != "admin@gmail.com") {
-                              ToastUtils.setSnackBar(
-                                  context,"You are not admin..!");
-                              return;
-                            }else  if (password.isEmpty) {
-                              ToastUtils.setSnackBar(
-                                  context,"Enter Password");
-                              return;
-                            }
-                            try {
-                              final user =
-                                  await _auth.signInWithEmailAndPassword(
-                                      email: email, password: password);
-                              if (user != null) {
+                                var email =
+                                    _emailController.text.toString().trim();
+                                var password =
+                                    _passwordController.text.toString().trim();
+                                if (email.isEmpty) {
+                                  ToastUtils.setSnackBar(
+                                      context, "Enter Email");
+                                  setState(() {
+                                    isLoading  = false;
+                                  });
 
-                                Navigator.pushNamed(context, 'home_screen');
-                              }
-                            } catch (e) {
-                              print(e);
-                              print("err : ${e.toString()}");
-                              if(e.toString().contains("[firebase_auth/unknown] An unknown error occurred: FirebaseError: Firebase: The password is invalid or the user does not have a password. (auth/wrong-password).")){
-                                ToastUtils.setSnackBar(context,"password is incorrect");
-                              }else{
-                                ToastUtils.setSnackBar(context,e.toString());
-                              }
-                            }
-                          }),
+                                  return;
+                                } else if (email != "admin@gmail.com") {
+                                  ToastUtils.setSnackBar(
+                                      context, "You are not admin..!");
+                                  setState(() {
+                                    isLoading  = false;
+                                  });
 
+                                  return;
+                                } else if (password.isEmpty) {
+                                  ToastUtils.setSnackBar(
+                                      context, "Enter Password");
+                                  setState(() {
+                                    isLoading  = false;
+                                  });
+
+                                  return;
+                                }
+                                try {
+                                  final user =
+                                      await _auth.signInWithEmailAndPassword(
+                                          email: email, password: password);
+                                  if (user != null) {
+
+                                    Navigator.pushNamed(context, 'home_screen');
+                                   setState(() {
+                                     isLoading  = false;
+                                   });
+
+                                  }
+                                } catch (e) {
+                                  print(e);
+                                  print("err : ${e.toString()}");
+                                  if (e.toString().contains(
+                                      "[firebase_auth/unknown] An unknown error occurred: FirebaseError: Firebase: The password is invalid or the user does not have a password. (auth/wrong-password).")) {
+                                    ToastUtils.setSnackBar(
+                                        context, "password is incorrect");
+                                    setState(() {
+                                      isLoading  = false;
+                                    });
+
+                                  } else {
+                                    ToastUtils.setSnackBar(
+                                        context, e.toString());
+                                    setState(() {
+                                      isLoading  = false;
+                                    });
+
+                                  }
+                                }
+                              }),
                       GestureDetector(
-                        onTap: (){
+                        onTap: () {
                           Navigator.pushNamed(context, 'registration_screen');
-
                         },
                         child: Text(
                           'Click to registration...',
                           style: Style(context).boldBlackText18(),
                           textAlign: TextAlign.start,
-
                         ),
                       ),
-
-
                     ],
                   ),
                 )
