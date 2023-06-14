@@ -1,22 +1,10 @@
 const kGoogleApiKey = "AIzaSyBlQEAl57Bd5B0YMIzO_20oY-hy2HYdxgg";
 
 class RouteName {
-  static const String splashScreen = '/Splash';
-  static const String loginScreen = '/login';
-  static const String RegistrationScreen = '/RegistrationScreen';
-  static const String forgotPasswordScreen = '/forgotPassword';
-  // static const String MyCustomWidget = '/MyCustomWidget';
-  static const String appBroswer = '/appBroswer';
+  static const String SplashScreen = '/Splash';
+  static const String LoginScreen = '/LoginScreen';
+  static const String HomeScreen = '/HomeScreen';
 
-
-  static const String SmartServices = '/SmartServices';
-  static const String SeniorCitizenCertificateScreen = '/SeniorCitizenCertificateScreen';
-  static const String GenerateSeniorCitizenCertificateScreen = '/GenerateSeniorCitizenCertificateScreen';
-  static const String DashboardScreen = '/DashboardScreen';
-
-  static const String HtmlToPdfScreen = '/HtmlToPdfScreen';
-  static const String IssuedCertificateScreen = '/IssuedCertificateScreen';
-  static const String SearchCertificateScreen = '/SearchCertificateScreen';
 
 }
 
