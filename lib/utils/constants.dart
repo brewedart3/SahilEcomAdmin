@@ -599,7 +599,7 @@ class VerifiedAadharGreenSymbol {
         // crossAxisAlignment: CrossAxisAlignment.center,
         children: [
           Image.asset(
-            Images.correct,
+            Images.avatar,
             height: 25,
             width: 25,
           ),
@@ -696,8 +696,7 @@ class APIStatusCheck {
             color: colors.error);
         var pref = await SharedPreferences.getInstance();
         await pref.clear();
-        navigatorKey.currentState!
-            .pushNamedAndRemoveUntil(RouteName.LoginScreen, (route) => false);
+        navigatorKey.currentState!.pushNamedAndRemoveUntil(RouteName.LoginScreen, (route) => false);
       }
       return false;
     }

@@ -1,10 +1,16 @@
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 import '../common/textfield.dart';
 import '../constants.dart';
+import '../provider/AuthProvider.dart';
+import '../theme/string.dart';
 import '../theme/style.dart';
+import '../utils/constants.dart' as c;
+import '../utils/constants.dart';
 import '../widgets/rounded_button.dart';
 
 class LoginScreen extends StatefulWidget {
@@ -34,7 +40,7 @@ class _LoginScreenState extends State<LoginScreen> {
               children: [
                 Flexible(
                   flex: 1,
-                  child: Image.asset('assets/login.png'),
+                  child: Image.asset(Images.login),
                 ),
                 Flexible(
                   flex: 1,
@@ -97,7 +103,7 @@ class _LoginScreenState extends State<LoginScreen> {
                                 var password =
                                     _passwordController.text.toString().trim();
                                 if (email.isEmpty) {
-                                  ToastUtils.setSnackBar(
+                                  c.ToastUtils.setSnackBar(
                                       context, "Enter Email");
                                   setState(() {
                                     isLoading  = false;
@@ -105,7 +111,7 @@ class _LoginScreenState extends State<LoginScreen> {
 
                                   return;
                                 } else if (email != "admin@gmail.com") {
-                                  ToastUtils.setSnackBar(
+                                  c.ToastUtils.setSnackBar(
                                       context, "You are not admin..!");
                                   setState(() {
                                     isLoading  = false;
@@ -113,7 +119,7 @@ class _LoginScreenState extends State<LoginScreen> {
 
                                   return;
                                 } else if (password.isEmpty) {
-                                  ToastUtils.setSnackBar(
+                                  c.ToastUtils.setSnackBar(
                                       context, "Enter Password");
                                   setState(() {
                                     isLoading  = false;
@@ -121,42 +127,28 @@ class _LoginScreenState extends State<LoginScreen> {
 
                                   return;
                                 }
-                                try {
-                                  final user =
-                                      await _auth.signInWithEmailAndPassword(
-                                          email: email, password: password);
-                                  if (user != null) {
+                                final authProvider = Provider.of<AuthProvider>(context, listen: false);
+                                authProvider.login(context,email, password);
+                                if (authProvider.user != null) {
+                                  // User is logged in
+                                  final prefs = await SharedPreferences.getInstance();
+                                  prefs.setBool(Constants.isLogin, true);
 
-                                    Navigator.pushNamed(context, 'home_screen');
-                                   setState(() {
-                                     isLoading  = false;
-                                   });
+                                  c.ToastUtils.setSnackBar(context,"successfully login");
+                                  navigatorKey.currentState!.pushReplacementNamed(RouteName.HomeScreen);
+                                } else {
+                                  // User is logged out
 
-                                  }
-                                } catch (e) {
-                                  print(e);
-                                  print("err : ${e.toString()}");
-                                  if (e.toString().contains(
-                                      "[firebase_auth/unknown] An unknown error occurred: FirebaseError: Firebase: The password is invalid or the user does not have a password. (auth/wrong-password).")) {
-                                    ToastUtils.setSnackBar(
-                                        context, "password is incorrect");
-                                    setState(() {
-                                      isLoading  = false;
-                                    });
+                                  setState(() {
+                                    isLoading  = false;
+                                  });
 
-                                  } else {
-                                    ToastUtils.setSnackBar(
-                                        context, e.toString());
-                                    setState(() {
-                                      isLoading  = false;
-                                    });
-
-                                  }
                                 }
                               }),
                       GestureDetector(
                         onTap: () {
-                          Navigator.pushNamed(context, 'registration_screen');
+                          // navigatorKey.currentState!.pushReplacementNamed(RouteName.RegistrationScreen);
+
                         },
                         child: Text(
                           'Click to registration...',

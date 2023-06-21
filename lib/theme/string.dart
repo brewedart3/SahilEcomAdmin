@@ -4,24 +4,15 @@ class RouteName {
   static const String SplashScreen = '/Splash';
   static const String LoginScreen = '/LoginScreen';
   static const String HomeScreen = '/HomeScreen';
+  static const String RegistrationScreen = '/RegistrationScreen';
 
 
 }
 
 class Images {
-  static const String app_icon = 'assets/images/app_icon.png';
-  static const String right_icon = 'assets/images/right.png';
-  static const String ic_camera = 'assets/images/ic_camera.png';
-  static const String ic_image = 'assets/images/ic_image.png';
-  static const String correct = 'assets/images/correct.png';
-  static const String card_blue = 'assets/images/card_blue.png';
-  static const String card_yellow = 'assets/images/card_yellow.png';
-  static const String card_purple = 'assets/images/card_purple.png';
-  static const String card_red = 'assets/images/card_red.png';
-  static const String person = 'assets/images/person.png';
-  static const String splash_back = 'assets/images/splash_back.png';
-  static const String splash_icon = 'assets/images/splash_icon.png';
-  static const String senior_card_logo = 'assets/images/senior_card_logo.png';
+  static const String avatar = 'assets/images/avatar.png';
+  static const String login = 'assets/images/login.png';
+  static const String sign_up = 'assets/images/sign_up.png';
 }
 class LottieFiles {
   static const String no_internet = 'assets/lottie/no_internet.json';

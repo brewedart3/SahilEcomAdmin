@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:provider/provider.dart';
 import 'package:sahilweb/provider/AuthProvider.dart';
+import 'package:sahilweb/provider/CategoryProvider.dart';
 import 'package:sahilweb/provider/ThemeNotifier.dart';
 import 'package:sahilweb/routes.dart';
 import 'package:sahilweb/screens/SplashScreen/SplashScreen.dart';
@@ -93,6 +94,8 @@ class _MyAppState extends State<MyApp> {
       providers: [
         ChangeNotifierProvider<AuthProvider>(
             create: (context) => AuthProvider()),
+        ChangeNotifierProvider<CategoryProvider>(
+            create: (context) => CategoryProvider()),
          ],
       child: MaterialApp(
         theme: appThemeLight,

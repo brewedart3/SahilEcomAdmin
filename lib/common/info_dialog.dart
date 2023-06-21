@@ -82,7 +82,7 @@ class _InfoDialogBoxState extends State<InfoDialogBox> {
                 height: Size_constants.dashboardCardHeight,
               )
                   : Image.asset(
-                Images.right_icon,
+                Images.avatar,
                 width: Size_constants.dashboardCardHeight,
                 height: Size_constants.dashboardCardHeight,
               ),
