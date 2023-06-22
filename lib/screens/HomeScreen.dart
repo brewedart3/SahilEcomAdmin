@@ -1,16 +1,10 @@
-import 'package:flutter/material.dart';
 import 'package:firebase_auth/firebase_auth.dart';
-import 'package:logger/logger.dart';
+import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:sahilweb/theme/color.dart';
-import 'package:shared_preferences/shared_preferences.dart';
 
-import '../model/Category.dart';
-import '../provider/CategoryProvider.dart';
 import '../provider/DrawerProvider.dart';
 import '../theme/string.dart';
-import '../utils/Device.dart';
-import '../utils/constants.dart';
 
 User? loggedinUser;
 

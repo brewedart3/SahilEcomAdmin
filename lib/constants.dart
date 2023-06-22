@@ -2,7 +2,14 @@ import 'package:flutter/material.dart';
 
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/services.dart';
+import 'package:sahilweb/theme/color.dart';
 import 'package:simple_circular_progress_bar/simple_circular_progress_bar.dart';
+
+
+const defaultPadding = 16.0;
+const primaryColor = Color(0xFF2697FF);
+const secondaryColor = Color(0xFF2A2D3E);
+const bgColor = Color(0xFF212332);
 
 const kMessageContainerDecoration = BoxDecoration(
   border: Border(

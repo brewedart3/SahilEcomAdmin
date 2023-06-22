@@ -660,7 +660,26 @@ class ToastUtils {
               color: textColor ?? Theme.of(context).colorScheme.white),
         ),
         elevation: 1.0,
-        backgroundColor: color ?? colors.yellowTemp,
+        backgroundColor: color ?? colors.primary,
+      ));
+    }
+  }
+  static void setSnackBarError(
+    BuildContext context,
+    String msg, {
+    Color? color,
+    Color? textColor,
+  }) {
+    if (msg != null && msg != "") {
+      ScaffoldMessenger.of(context).showSnackBar(SnackBar(
+        content: Text(
+          msg,
+          textAlign: TextAlign.center,
+          style: TextStyle(
+              color: textColor ?? Theme.of(context).colorScheme.white),
+        ),
+        elevation: 1.0,
+        backgroundColor: color ?? colors.error,
       ));
     }
   }

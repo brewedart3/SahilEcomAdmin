@@ -2,6 +2,7 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/foundation.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:sahilweb/utils/constants.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 import '../theme/string.dart';
 
@@ -18,13 +19,24 @@ class AuthProvider extends ChangeNotifier {
         password: password,
       );
       _user = userCredential.user;
+      final prefs = await SharedPreferences.getInstance();
+      prefs.setBool(Constants.isLogin, true);
+      // navigatorKey.currentState!.pushReplacementNamed(RouteName.HomeScreen);
+      navigatorKey.currentState!.pushReplacementNamed(RouteName.MainScreen);
+
+      ToastUtils.setSnackBar(context, "successfully login");
       notifyListeners();
-
-
     } catch (error) {
       // Handle error
-      ToastUtils.setSnackBar(context,"Something wrong : ${error.toString()}");
+      print("sahil : ${error.toString()}");
+      if(error.toString().endsWith("[firebase_auth/unknown] An unknown error occurred: FirebaseError: Firebase: The password is invalid or the user does not have a password. (auth/wrong-password).")){
+        ToastUtils.setSnackBar(context,"Password Wrong");
 
+      }else{
+        ToastUtils.setSnackBar(context,"Something wrong : ${error.toString()}");
+
+      }
+      Navigator.of(context).pop();
     }
   }
 

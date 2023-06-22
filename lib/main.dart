@@ -1,22 +1,20 @@
+import 'dart:async';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:flutter_localizations/flutter_localizations.dart';
 import 'package:provider/provider.dart';
 import 'package:sahilweb/provider/AuthProvider.dart';
-import 'package:sahilweb/provider/CategoryProvider.dart';
 import 'package:sahilweb/provider/ThemeNotifier.dart';
 import 'package:sahilweb/routes.dart';
 import 'package:sahilweb/screens/SplashScreen/SplashScreen.dart';
-import 'package:sahilweb/screens/LoginScreen.dart';
-import 'package:sahilweb/utils/Device.dart';
 import 'package:sahilweb/utils/constants.dart';
 import 'package:sahilweb/utils/lang/app_localizations_dele.dart';
 import 'package:sahilweb/utils/lang/locale_constant.dart';
 import 'package:shared_preferences/shared_preferences.dart';
+import 'controllers/MenuAppController.dart';
 import 'firebase_options.dart';
 import 'theme/style.dart';
-import 'dart:async';
-import 'package:flutter_localizations/flutter_localizations.dart';
 
 
 
@@ -94,8 +92,10 @@ class _MyAppState extends State<MyApp> {
       providers: [
         ChangeNotifierProvider<AuthProvider>(
             create: (context) => AuthProvider()),
-        ChangeNotifierProvider<CategoryProvider>(
-            create: (context) => CategoryProvider()),
+        ChangeNotifierProvider(
+          create: (context) => MenuAppController(),
+        ),
+
          ],
       child: MaterialApp(
         theme: appThemeLight,

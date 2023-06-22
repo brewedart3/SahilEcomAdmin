@@ -35,7 +35,8 @@ class _SplashScreenState extends State<SplashScreen>  {
     });
     Timer(Duration(milliseconds: 5000), () {
       if (isLogin)
-        navigatorKey.currentState!.pushReplacementNamed(RouteName.HomeScreen);
+        // navigatorKey.currentState!.pushReplacementNamed(RouteName.HomeScreen);
+        navigatorKey.currentState!.pushReplacementNamed(RouteName.MainScreen);
       else
         navigatorKey.currentState!.pushReplacementNamed(RouteName.LoginScreen);
 

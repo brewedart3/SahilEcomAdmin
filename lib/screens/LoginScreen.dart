@@ -4,9 +4,11 @@ import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
+import '../common/dialogs/CustomProgressDialog.dart';
 import '../common/textfield.dart';
 import '../constants.dart';
 import '../provider/AuthProvider.dart';
+import '../theme/color.dart';
 import '../theme/string.dart';
 import '../theme/style.dart';
 import '../utils/constants.dart' as c;
@@ -24,7 +26,14 @@ class _LoginScreenState extends State<LoginScreen> {
   final TextEditingController _emailController = TextEditingController();
   final TextEditingController _passwordController = TextEditingController();
 
-  bool isLoading = false;
+  @override
+  void initState() {
+    // TODO: implement initState
+    super.initState();
+
+    _emailController.text = "admin@gmail.com";
+    _passwordController.text = "987654321";
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -75,80 +84,50 @@ class _LoginScreenState extends State<LoginScreen> {
                       SizedBox(
                         height: 24.0,
                       ),
-                      isLoading
-                          ? Padding(
-                              padding: const EdgeInsets.all(8.0),
-                              child: Row(
-                                mainAxisAlignment: MainAxisAlignment.center,
-                                children: [
-                                  CircularProgressIndicator(
-                                    color: Colors.blue,
-                                  ),
-                                  SizedBox(width: 20,),
-                                  Text("Please wait....")
-                                ],
-                              ),
-                            )
-                          : RoundedButton(
-                              colour: Colors.lightBlueAccent,
-                              title: 'Log In',
-                              onPressed: () async {
-                                if (isLoading) return;
-                                setState(() {
-                                  isLoading  = true;
-                                });
+                      RoundedButton(
+                          colour: colors.primary,
+                          title: 'Log In',
+                          onPressed: () async {
+                            var email = _emailController.text.toString().trim();
+                            var password =
+                                _passwordController.text.toString().trim();
+                            if (email.isEmpty) {
+                              c.ToastUtils.setSnackBarError(
+                                  context, "Enter Email");
+                              return;
+                            } else if (email != "admin@gmail.com") {
+                              c.ToastUtils.setSnackBarError(
+                                  context, "You are not admin..!");
+                              return;
+                            } else if (password.isEmpty) {
+                              c.ToastUtils.setSnackBarError(
+                                  context, "Enter Password");
+                              return;
+                            } else {
+                              showDialog(
+                                context: context,
+                                barrierDismissible: false,
+                                builder: (BuildContext context) {
+                                  return CustomProgressDialog();
+                                },
+                              );
 
-                                var email =
-                                    _emailController.text.toString().trim();
-                                var password =
-                                    _passwordController.text.toString().trim();
-                                if (email.isEmpty) {
-                                  c.ToastUtils.setSnackBar(
-                                      context, "Enter Email");
-                                  setState(() {
-                                    isLoading  = false;
-                                  });
-
-                                  return;
-                                } else if (email != "admin@gmail.com") {
-                                  c.ToastUtils.setSnackBar(
-                                      context, "You are not admin..!");
-                                  setState(() {
-                                    isLoading  = false;
-                                  });
-
-                                  return;
-                                } else if (password.isEmpty) {
-                                  c.ToastUtils.setSnackBar(
-                                      context, "Enter Password");
-                                  setState(() {
-                                    isLoading  = false;
-                                  });
-
-                                  return;
-                                }
-                                final authProvider = Provider.of<AuthProvider>(context, listen: false);
-                                authProvider.login(context,email, password);
-                                if (authProvider.user != null) {
-                                  // User is logged in
-                                  final prefs = await SharedPreferences.getInstance();
-                                  prefs.setBool(Constants.isLogin, true);
-
-                                  c.ToastUtils.setSnackBar(context,"successfully login");
-                                  navigatorKey.currentState!.pushReplacementNamed(RouteName.HomeScreen);
-                                } else {
-                                  // User is logged out
-
-                                  setState(() {
-                                    isLoading  = false;
-                                  });
-
-                                }
-                              }),
+                              try {
+                                final authProvider = Provider.of<AuthProvider>(
+                                    context,
+                                    listen: false);
+                                authProvider.login(context, email, password);
+                              } catch (e) {
+                                c.ToastUtils.setSnackBarError(
+                                    context, "error : ${e.toString()}");
+                                Navigator.of(context)
+                                    .pop(); // Close the progress dialog
+                              }
+                            }
+                          }),
                       GestureDetector(
                         onTap: () {
                           // navigatorKey.currentState!.pushReplacementNamed(RouteName.RegistrationScreen);
-
                         },
                         child: Text(
                           'Click to registration...',
